@@ -30,9 +30,28 @@ class SimilarityJoin:
         return df
 
     def filtering(self, df1, df2):
-        """
-            Write your code!
-        """
+        # define a new column to explode joinKey
+        df1['explodedJoinKey'] = df1['joinKey']
+        df2['explodedJoinKey'] = df2['joinKey']
+        
+        # explode joinKey column
+        df1_exploded = df1[['id', 'joinKey', 'explodedJoinKey']].explode('explodedJoinKey')
+        df2_exploded = df2[['id', 'joinKey', 'explodedJoinKey']].explode('explodedJoinKey')
+        
+        # join two dataframes on exploded joinKey to find rows with shared elements
+        df_joined = pd.merge(df1_exploded, df2_exploded, on='explodedJoinKey', how='inner')
+        
+        # drop exploded joinKey
+        df_dropped = df_joined.drop(['explodedJoinKey'], axis=1)
+        
+        # rename columns after join
+        df_renamed = df_dropped.rename(columns={'id_x': 'id1', 'joinKey_x': 'joinKey1', 'id_y': 'id2', 'joinKey_y': 'joinKey2'})
+        
+        # drop duplicate rows of (id1, id2)
+        df_filtered = df_renamed.drop_duplicates(['id1', 'id2'], keep='first')
+        
+        # return result dataframe
+        return df_filtered
 
     def verification(self, cand_df, threshold):
         """
