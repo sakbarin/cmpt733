@@ -74,9 +74,18 @@ class SimilarityJoin:
         return result_df
 
     def evaluate(self, result, ground_truth):
-        """
-            Write your code!
-        """
+        # find length of R, T, A
+        R = len(result)
+        T = len([x for x in result if (x in ground_truth)])
+        A = len(ground_truth)
+        
+        # calculate precision, recall and fmeasure
+        precision = T / R
+        recall = T / A
+        fmeasure = (2 * precision * recall) / (precision + recall)
+        
+        # return values
+        return (precision, recall, fmeasure)
 
     def jaccard_join(self, cols1, cols2, threshold):
         new_df1 = self.preprocess_df(self.df1, cols1)
