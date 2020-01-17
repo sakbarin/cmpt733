@@ -53,10 +53,25 @@ class SimilarityJoin:
         # return result dataframe
         return df_filtered
 
+    def intersect(self, cols):
+        # this function is used to calcuate jaccard value for each record
+        joinKey1 = set(cols[0])
+        joinKey2 = set(cols[1])
+        
+        intersection_count = len(joinKey1.intersection(joinKey2))
+        union_count = len(joinKey1.union(joinKey2))
+        
+        return (intersection_count / union_count)
+        
     def verification(self, cand_df, threshold):
-        """
-            Write your code!
-        """
+        # computer jaccard value using self.intersect function
+        cand_df['jaccard'] = cand_df[['joinKey1', 'joinKey2']].apply(self.intersect, axis=1)
+        
+        # select records with jaccard value greater than threshold
+        result_df = cand_df.loc[cand_df['jaccard'] >= threshold]
+        
+        # return results
+        return result_df
 
     def evaluate(self, result, ground_truth):
         """
