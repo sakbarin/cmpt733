@@ -12,9 +12,29 @@ class AnomalyDetection():
         return df
     
     def scaleNum(self, df, indices):
-        """
-            Write your code!
-        """
+        # break feature list to some columns
+        df_normal = self.normalizeDf(df)
+
+        # add one to indices to (because of id column)
+        indices = np.add(indices, 1)
+        
+        for index in indices:
+            mean = df_normal.iloc[:,index].mean()
+
+            df_normal['x_mean'] = df_normal.iloc[:,index] - mean
+
+            df_normal['(x_mean)pow2'] = df_normal['x_mean'] * df_normal['x_mean']
+
+            variance = df_normal['(x_mean)pow2'].sum() / (df_normal['(x_mean)pow2'].count() - 1)
+            standard_deviation = np.sqrt(variance)
+
+            df_normal.iloc[:,index] = df_normal['x_mean'] / standard_deviation
+
+            df_normal.drop(columns=['x_mean', '(x_mean)pow2'], inplace=True)
+
+        df_normal['features'] = df_normal.iloc[:,1:].to_numpy().tolist()
+
+        return df_normal[['id', 'features']]
 
 
     def cat2Num(self, df, indices):
@@ -65,13 +85,14 @@ class AnomalyDetection():
         df_normal['features'] = df_normal.iloc[:,1:].to_numpy().tolist()
         
         # return [id, feature] dataframe
-        return df_normal[['id', 'features']]
+        return df_normal[['id', 'features']].sort_values('id')
 
     def detect(self, df, k, t):
         """
             Write your code!
         """
 
+pd.set_option('display.max_colwidth', -1)
 
 #df = pd.read_csv('logs-features-sample.csv').set_index('id')
 ad = AnomalyDetection()
@@ -87,10 +108,8 @@ df = pd.DataFrame(data=data, columns = ["id", "features"])
 df1 = ad.cat2Num(df, [0,1])
 print(df1)
 
-#df2 = ad.scaleNum(df1, [6])
-#print(df2)
+df2 = ad.scaleNum(df1, [6])
+print(df2)
 
 #df3 = ad.detect(df2, 8, 0.97)
 #print(df3)
-
-
