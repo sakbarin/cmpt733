@@ -133,24 +133,31 @@ class AnomalyDetection():
         return df_result[['id', 'features', 'score']].loc[df_result['score'] >= t]
         
 
+# set option to show features completely
 pd.set_option('display.max_colwidth', -1)
 
-
+# create object
 ad = AnomalyDetection()
 
+# dataset file name
 file_name = 'logs-features-sample.csv'
+
+# features column name
 col_name = 'features'
 
 
+# prepare dataframe
 df = pd.read_csv(file_name, converters={col_name: ast.literal_eval})
 df = pd.DataFrame(df[col_name].tolist())
 
-
+# convert categorical to one-hot encoding
 df1 = ad.cat2Num(df, [0,1])
 print(df1)
 
+# convert numerical to standardized numerical
 df2 = ad.scaleNum(df1, list(range(12,48)))
 print(df2)
 
+# detect anomalies
 df3 = ad.detect(df2, 8, 0.97)
 print(df3)
