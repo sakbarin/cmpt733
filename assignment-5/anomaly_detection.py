@@ -133,7 +133,7 @@ class AnomalyDetection():
         return df_result[['id', 'features', 'score']].loc[df_result['score'] >= t]
         
 
-#pd.set_option('display.max_colwidth', -1)
+pd.set_option('display.max_colwidth', -1)
 
 
 ad = AnomalyDetection()
