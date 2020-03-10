@@ -36,8 +36,9 @@ Each assignment revolves around a specific topic as follows:
 - Explainable Machine Learning 
   - transparent models -> logistic regression
   - post-hoc explanation (global) -> permutation, partial independence, global surrogate
-  - post-hoc explanation (local) -> attribution (shap library), LIME
-- Automated Machine Learning (featuretools -> feature generation)
+  - post-hoc explanation (single) -> attribution (shap), LIME
+- Automated Machine Learning 
+  - feature generation -> featuretools
 
 ### Assignment-8
 - Deep Learning (pytorch)
