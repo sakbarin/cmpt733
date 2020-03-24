@@ -44,3 +44,16 @@ Each assignment revolves around a specific topic as follows:
 - Deep Learning (pytorch)
   - object detection
   - using of pre-trained models
+
+### Assignment-9
+- Hypothesis Testing
+  - A/B Testing
+  - Chi-Squared Test
+- Causal Inference
+  - Causal Graph
+  - ATE Estimation
+   - Perfect Matching
+   - Nearest Neighbor Matching
+   - Propensity Score Matching
+   - Linear Regression
+  - DoWhy
