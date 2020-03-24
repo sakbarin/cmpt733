@@ -51,9 +51,8 @@ Each assignment revolves around a specific topic as follows:
   - Chi-Squared Test
 - Causal Inference
   - Causal Graph
-  - ATE Estimation
-   - Perfect Matching
-   - Nearest Neighbor Matching
-   - Propensity Score Matching
-   - Linear Regression
+  - ATE Estimation -> Perfect Matching
+  - ATE Estimation -> Nearest Neighbor Matching
+  - ATE Estimation -> Propensity Score Matching
+  - ATE Estimation -> Linear Regression
   - DoWhy
